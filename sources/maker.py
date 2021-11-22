@@ -19,15 +19,15 @@ class PizzaMaker:
             self._fridge.use_multiple_ingredients(ingredients)
         except NotEnoughException as e:
             return f'I don\'t have enough "{str(e)}"'
-        return None
+        return True, None
 
     def take_an_order(self, name: str) -> Tuple[bool, Optional[str]]:
         if name not in RECIPES:
             return False, 'I don\'t know this pizza'
         ingredients = RECIPES[name]['ingredients']
         price = RECIPES[name]['price']
-        self._gain += price  # Gain money
         error = self.__try_to_get_ingredients(ingredients)
         if error is not None:
             return False, error
+        self._gain += price  # Gain money
         return True, None
